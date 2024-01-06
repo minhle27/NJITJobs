@@ -5,8 +5,10 @@ import config from "./utils/config";
 import helmet from "helmet";
 import morgan from "morgan";
 import 'express-async-errors';
-import unknownEndpoint from "./middleware/unknownEndpoints";
+import errorHandler from "./middleware/errorHandler";
+
 import requestLogger from "./middleware/requestLogger";
+import unknownEndpoint from "./middleware/unknownEndpoints";
 
 const app = express();
 
@@ -33,6 +35,14 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use(requestLogger);
 
+// Routes
+app.get("/api/ping", (_req, res) => {
+  console.log("someone pinged here");
+  res.send("pong");
+});
+
+
 app.use(unknownEndpoint);
+app.use(errorHandler);
 
 export default app;
