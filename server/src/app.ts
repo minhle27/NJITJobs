@@ -5,6 +5,8 @@ import config from "./utils/config";
 import helmet from "helmet";
 import morgan from "morgan";
 import 'express-async-errors';
+import unknownEndpoint from "./middleware/unknownEndpoints";
+import requestLogger from "./middleware/requestLogger";
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use(cors());
 app.use(helmet());
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 app.use(morgan("common"));
+app.use(requestLogger);
 
+app.use(unknownEndpoint);
 
 export default app;
